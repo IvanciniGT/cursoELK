@@ -1,0 +1,58 @@
+version: '3.0'
+services:
+
+# Vamos a montar un cluster con 3 nodos de ES
+  nodo1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: nodo1
+    ports:
+      - 8080:9200
+    volumes:
+      - /home/ubuntu/environment/datos/nodo1:/usr/share/elasticsearch/data
+    environment:
+      - node.name=nodo1
+      - cluster.name=MiCluster
+      - discovery.seed_hosts=nodo2,nodo3
+      - cluster.initial_master_nodes=nodo1,nodo2,nodo3
+      - "ES_JAVA_OPTS=-Xms300m -Xmx300m"
+
+  nodo2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: nodo2
+    volumes:
+      - /home/ubuntu/environment/datos/nodo2:/usr/share/elasticsearch/data
+    environment:
+      - node.name=nodo2
+      - cluster.name=MiCluster
+      - discovery.seed_hosts=nodo1,nodo3
+      - cluster.initial_master_nodes=nodo1,nodo2,nodo3
+      - "ES_JAVA_OPTS=-Xms300m -Xmx300m"
+
+  nodo3:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: nodo3
+    volumes:
+      - /home/ubuntu/environment/datos/nodo3:/usr/share/elasticsearch/data
+    environment:
+      - node.name=nodo3
+      - cluster.name=MiCluster
+      - discovery.seed_hosts=nodo1,nodo2
+      - cluster.initial_master_nodes=nodo1,nodo2,nodo3
+      - "ES_JAVA_OPTS=-Xms300m -Xmx300m"
+      
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.0
+    container_name: kibana
+    ports:
+      - 8082:5601
+    environment:
+      ELASTICSEARCH_HOSTS: "http://nodo1:9200"
+      SERVER_NAME: "kibana"
+      SERVER_HOST: "kibana"
+      
+  cerebro:
+    image: lmenezes/cerebro:0.8.5
+    container_name: cerebro
+    ports:
+      - 8081:9000
