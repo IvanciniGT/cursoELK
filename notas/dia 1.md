@@ -92,8 +92,10 @@ Influx(prometheus) --- ElasticSearch
 Grafana            --- Kibana
 
 # A la hora de integrar Beats con ElasticSearch... van a salir algunas peculiaridades.
-Beats     >>>>     ElasticSearch   <<<<   Kibana
-
+Beats     >> datos >>     ElasticSearch   <<<<   Kibana
+ VV                                                ^^   
+  >>>>>>>>>>> create un dashboard adecuado >>>>>>>>>
+  
 La cuestión es que vamos a recopilar eventos que se van produciendo.
 Por un lado, cuando se produce una evento, lo necesito registrar.
 Por otro lado, ese evento registrado(medido) necesito mandarlo posteriormente a un sistema de almacenamiento.
@@ -122,3 +124,41 @@ Quien me puede ayudar a resolver estos problemas?
                  el gestor de contenedores, va a reemplazarlo. Por ejemplo: Kubernetes, Openshift, Docker, Podman
 - Si se cae un elastic... necesito tener un sitio donde ir almacenando temporalmente los eventos, hasta que ES vuelva a la vida.
     - KAFKA
+
+
+# Los beats crean índices en autoático dentro de ElasticSearch para guardar los documentos (eventos) que recopilan
+Que configuración importante tenemos en un índice dentro de ES?
+- Número de shards primarios (Que me aportan? Más capacidad de computo indexación / busqueda)
+- Número de replicas. Son copias que hacemos de los shards primarios... que deben estar continuamente actualizadas
+                      Lo que se hace al indexar UN DOCUMENTO es incluirlo en todas y cada una de las copias de el fragmento
+                      Que me aportan? 
+                        - Alta disponibilidad de la información: REDUNDANCIA DE DATOS
+                        - Me aceleran las búsquedas... porque tengo más sitios en donde buscar
+                        - Me aceleran las cargas? NO 
+
+
+
+# Dentro de ElasticSearch, los documentos se guardan en Indices (como si fuera una tabla en una BBDD relacional)
+Shard? Una partición de índice 
+
+
+
+Indice de las metricas de los servidores:
+    Particion 1 - Shard primario
+    Particion 2 - Shard primario
+Qué me aportan las particiones? 
+    Tener más recursos para realizar los trabajos de carga / búsqueda
+    Cada shard o particion primaria es un proceso dentro del servidor, que se encarga de indexar/buscar independiente
+    
+
+Monitorizar estadísticas de máquinas
+    Vamos a tener más trabajo de carga o de búsqueda?     CARGA
+    Que es más pesado a priori... la carga o la búsqueda? Buscarlos RUINA !!!! NI DE COÑA
+    ¿Cual es la misión de un indexador? Hacer que la búsqueda sea más rápida, 
+                                        a costa de hacer una carga mucho más lenta.
+                                        
+                                        
+"El servidor ha producido un error: El fichero /tmp/registro.log no está disponible."
+Carga en una BBDD?
+INSERT INTO TABLA_DOCUMENTO VALUES("El servidor ha producido un error: El fichero /tmp/registro.log no está disponible.");
+Añade ese texto al final de un fichero.

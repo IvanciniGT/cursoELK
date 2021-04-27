@@ -1,0 +1,103 @@
+FICHERO DE ORACLE:
+----------------------
+"El servidor PRODUCCIÓN ha producido un error: El fichero /tmp/registro.log no está disponible."
+"El servidor ha producido un error: El fichero /tmp/registro2.log no está disponible."
+"El servidor no ha producido un error."
+"Arrancando el servidor."
+"Parando el servidor."
+"Arrancando el servidor."
+"Parando el servidor."
+"Arrancando el servidor."
+"Parando el servidor."
+"El servidor ha producido un error: El fichero /tmp/registro.log no está disponible."
+"Parando el servidor."
+Añadir un nuevo evento... RAPIDISIMO
+----------------------
+Oracle... dame los documentos/eventos de ERROR.
+Que tiene que hacer Oracle? Leer el fichero ENTERO, ponerlo en minusculas buscando la palabra "produccion"
+                            también tansformada a minusculas 
+                            también tiene que quitar los acentos según va leyendo
+                            <<<< MUCHO MAS LENTO
+
+
+ELASTIC SEARCH:
+INDEXA este documento: "El servidor PRODUCCIÓN ha producido un error: El fichero /tmp/registro.log no está disponible."
+El servidor ha producido un (error): "El fichero /tmp/registro.log -> no está disponible"
+PASO 1: CARACTERES SON SEPARADORES DE TERMINOS? 
+    Espacios, Dos puntos, flechita, parentesis, comillas
+
+El
+servidor
+PRODUCCIÓN
+ha
+producido
+un
+Error
+El
+fichero
+/tmp/registro.log
+no
+está
+disponible
+
+PASO 2:
+Quitar lo que denominamos STOP WORDS (palabras que no aportan valor)
+-
+servidor
+PRODUCCIÓN
+-
+producido
+-
+Error
+-
+fichero
+/tmp/registro.log
+-
+-
+disponible
+
+PASO 3:
+-
+servidor
+producción
+-
+producido
+-
+error
+-
+fichero
+/tmp/registro.log
+-
+-
+disponible
+
+PASO 4:
+-
+servidor
+produccion
+-
+producido
+-
+error
+-
+fichero
+/tmp/registro.log
+-
+-
+disponible
+
+PASO 5: ORDENARLOS
+disponible -> La 10 palabra del evento 17876 (entrada en el  fichero de los del servidor7. con fecha 17-enero 2021 a las 15:32:56)
+error      -> La 8 palabra
+fichero    -> La segunda palabra
+produccion
+producido
+servidor
+/tmp/registro.log
+CUANTO TARDA LA CARGA.... Un huevo !!!! En ES las cargas se realizan de forma asincrona
+
+Que pasa cuando a ELASTIC le digo...  Quiero buscar los documentos con la palabra "PRODUCCIÓN"?
+1º Aplicar al Término(s) buscado los mismos pasos que hace al cargar los documentos
+    "PRODUCCIÓN" >> "produccion"
+2º Directamente buscar ese termino en el indice... a la derechita le dice donde está.
+¿Cuanto tarda la búsqueda? NADA
