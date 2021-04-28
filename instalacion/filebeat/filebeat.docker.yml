@@ -17,6 +17,4 @@ filebeat.inputs:
       - /tmp/access_log
 
 output.elasticsearch:
-  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
-  username: '${ELASTICSEARCH_USERNAME:}'
-  password: '${ELASTICSEARCH_PASSWORD:}'
+  hosts: ['172.31.11.249:8080']
