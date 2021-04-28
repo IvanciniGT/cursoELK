@@ -26,4 +26,6 @@ Weblogic
     
     
     
-    
+ElasticSearch
+    Indices
+        

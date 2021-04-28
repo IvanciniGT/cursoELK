@@ -17,7 +17,7 @@ docker run  \
   
   
   docker run \
-    --name filebeat \
+    --name=filebeat \
     --rm \
     -v "/home/ubuntu/environment/curso/instalacion/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml" \
     -v "/home/ubuntu/environment/datos/access_log:/tmp/access_log" \

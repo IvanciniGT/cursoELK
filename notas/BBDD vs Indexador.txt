@@ -87,13 +87,13 @@ fichero
 disponible
 
 PASO 5: ORDENARLOS
-disponible -> La 10 palabra del evento 17876 (entrada en el  fichero de los del servidor7. con fecha 17-enero 2021 a las 15:32:56)
-error      -> La 8 palabra
-fichero    -> La segunda palabra
-produccion
-producido
-servidor
-/tmp/registro.log
+    disponible -> La 10 palabra del evento 17876 (entrada en el  fichero de los del servidor7. con fecha 17-enero 2021 a las 15:32:56)
+    error      -> La 8 palabra
+    fichero    -> La segunda palabra
+    produccion
+    producido
+    servidor
+    /tmp/registro.log
 CUANTO TARDA LA CARGA.... Un huevo !!!! En ES las cargas se realizan de forma asincrona
 
 Que pasa cuando a ELASTIC le digo...  Quiero buscar los documentos con la palabra "PRODUCCIÓN"?
@@ -101,3 +101,56 @@ Que pasa cuando a ELASTIC le digo...  Quiero buscar los documentos con la palabr
     "PRODUCCIÓN" >> "produccion"
 2º Directamente buscar ese termino en el indice... a la derechita le dice donde está.
 ¿Cuanto tarda la búsqueda? NADA
+
+Un indice está compuesto por muchos shards
+    Cada shard está compuesto por muchos ficheros en el HDD
+        Esos ficheros se llaman segmentos
+            Segmento A ... tiene sus datos ordenados   - produccion?
+            Segmento B ... tiene sus datos ordenados   - produccion?
+            Segmento C ... tiene sus datos ordenados   - produccion?
+            Segmento D ... tiene sus datos ordenados   - produccion?
+            Segmento E ... tiene sus datos ordenados   - produccion?
+
+--------------------------------------------------------------------------------------------------------
+
+Cada factura es un documentos
+    Donde meto las facturas ... En un archivador <--- Shard (fragmento de un indice) 
+    Las facturas van a estar en archivadores de color verde
+
+Que sería el conjunto de archivadores de color verde? Indice
+
+ElasticSearch <<<< Departamento de gestion documental
+    Facturas -> Shard
+        Como me interesa que estén las facturas ordenadas dentro del archivador? Por conceptos
+        Pensais que ES va guardando las facturas ordenadas por terminos dentro del archivador? Tampoco
+            Que problema tendría el ir guardando las facturas ordenadas? TIEMPO
+        Elastic va creando bolsitas de faturas dentro del archivador <<<< SEGMENTO (archivo en disco)
+        En el archivador(shard) tengo 20 bolsitas (segmentos)
+            Cuando hago una busqueda, tengo que buscar en 20 bolsitas... pero... 
+                En cada bolsita los datos están ordenados entre si.
+        Si en un momento dado, yo quisiera poder hacer la búsqueda de manera más eficiente... que haría?
+            Junto todas las bolsitas en una... reordenando las facturas de nuevo. PERO... TIEMPO
+                Cuando me va a interesar hacer eso?
+                    Hoy saco un rato... y reorganizo todo en una bolsita.... 
+                        Que pasa mañana? vienen mas datos y empiezo a tener mas bolsitas...
+                            Esto es la pescadilla que se muerde la cola
+                Cuando tenga certeza de que no me van a llegar más facturas para guardar al menos en ese archivador <<<< Cerrar un indice
+                
+        Que pasa si mi indice está asociado a una fecha?
+        
+        Donde estan las facturas? 
+            En archivadores de "color verde *"   <<<<<<   Index pattern
+        
+        
+            En los archivadores verdes meto las facturas del día 14 de enero            <<<<< Indice
+            En los archivadores verdes pistacho meto las facturas del día 15 de enero   <<<<< Indice
+            En los archivadores verdes lima meto las facturas del día 16 de enero       <<<<< Indice
+            En los archivadores verdes caqui meto las facturas del día 17 de enero
+            
+    
+    
+Dame las facturas que tengan la palabra "Telefono"
+
+
+
+
