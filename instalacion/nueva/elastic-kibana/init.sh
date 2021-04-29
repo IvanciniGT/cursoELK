@@ -12,5 +12,8 @@ docker-compose run --rm create_certs
 
 unzip ~/environment/datos/certs/bundle.zip -d ~/environment/datos/certs
 
+docker-compose down
+
+sleep 3
 # Arrancar el cluster
 docker-compose up -d

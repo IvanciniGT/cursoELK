@@ -182,7 +182,7 @@ services:
     image: lmenezes/cerebro:0.8.5
     container_name: cerebro
     networks:
-      - frontnet
+      - backnet
     ports:
       - 8081:9000
     volumes:
@@ -195,7 +195,7 @@ services:
     ports:
       - 8082:5601
     networks:
-      - frontnet
+      - backnet
     volumes:
       - /home/ubuntu/environment/datos/certs/kibana:/etc/kibana/config/certs/kibana
       - /home/ubuntu/environment/datos/certs/ca:/etc/kibana/config/certs/ca
@@ -226,27 +226,12 @@ services:
     user: "0"
     working_dir: /usr/share/elasticsearch
     volumes: 
-      - 'certsroot:/certs'
+      - '/home/ubuntu/environment/datos/certs:/certs'
       - '.:/usr/share/elasticsearch/config/certificates'
 
-volumes:
-  certsroot:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-#OJO !!!!                   v               v
-      device: '/home/ubuntu/environment/datos/certs'
- 
 networks:
   backnet:
     ipam:
       driver: default
       config:
         - subnet: 10.10.0.0/8
-
-  frontnet:
-    ipam:
-      driver: default
-      config:
-        - subnet: 20.10.0.0/8
