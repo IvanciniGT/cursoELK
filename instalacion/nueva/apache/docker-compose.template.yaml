@@ -23,4 +23,18 @@ services:
     heartbeat-setup:
         image: docker.elastic.co/beats/heartbeat:7.12.1
         container_name: mi-apache-heartbeat-setup
-        command: [ 'sh' , '-c' , 'heartbeat setup -E setup.kibana.host=${IP}:8082 -E output.elasticsearch.hosts=["${IP}:9200"]' ]
+        command: [ 'sh' , '-c' , >
+            'heartbeat setup '
+            '-E setup.kibana.host=http://${IP}:8082 '
+            '-E setup.kibana.ssl.certificate_authorities=["/etc/logstash/certs/ca/ca.crt"] '
+            '-E setup.kibana.username=elastic '
+            '-E setup.kibana.password=password '
+
+            '-E output.elasticsearch.hosts=["https://${IP}:9200"]' 
+            '-E output.elasticsearch.ssl.certificate_authorities=["/etc/logstash/certs/ca/ca.crt"] '
+            '-E output.elasticsearch.username=elastic '
+            '-E output.elasticsearch.password=password '
+           ]
+#            '-E setup.kibana.host=https://${IP}:8082 '
+        volumes:
+            - /home/ubuntu/environment/datos/certs/ca:/etc/logstash/certs/ca
