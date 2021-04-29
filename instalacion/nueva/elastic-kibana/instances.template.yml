@@ -19,7 +19,7 @@ instances:
       - localhost
     ip:
       - 127.0.0.1
-      - 172.31.11.249
+      - ${IP}
       
   - name: data2
     dns:

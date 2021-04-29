@@ -1,0 +1,11 @@
+version: "3.0"
+
+services:
+    logstash:
+        image: docker.elastic.co/logstash/logstash:7.12.1
+        container_name: logstash
+        ports:
+            - 5044:5044
+        volumes:
+            - ./pipelines/pipeline_heartbeat.conf:/usr/share/logstash/pipeline/logstash.conf
+            - /home/ubuntu/environment/datos/certs/ca:/etc/logstash/certs/ca

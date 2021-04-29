@@ -1,0 +1,8 @@
+heartbeat.monitors:
+- type: http
+  schedule: '@every 5s'
+  urls:
+    - http://172.31.11.249:8080
+
+output.logstash:
+  hosts: ['172.31.11.249:5044']

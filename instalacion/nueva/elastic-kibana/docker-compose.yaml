@@ -101,6 +101,8 @@ services:
       - /home/ubuntu/environment/datos/certs/ca:/usr/share/elasticsearch/config/certificates/ca
     networks:
       - backnet
+    ports:
+      - 9200:9200
     environment:
       - node.name=data1
       - cluster.name=MiCluster
