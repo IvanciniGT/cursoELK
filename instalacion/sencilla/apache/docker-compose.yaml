@@ -1,0 +1,15 @@
+version: "3.0"
+
+services:
+    mi-apache:
+        image: httpd
+        container_name: mi-apache
+        ports:
+            - 8081:80
+        volumes:
+            # Garantizar que se trabaje con nuestro fichero de conf
+            #  en el cual hemos activado el fichero de log:
+            # /usr/local/apache2/logs/access_log
+            - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+            # Exporto el archivo de log al host
+            - /home/ubuntu/environment/datos/access_log:/usr/local/apache2/logs/access_log
