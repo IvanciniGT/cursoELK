@@ -10,6 +10,7 @@ services:
     volumes:
       - /home/ubuntu/environment/datos/nodo1:/usr/share/elasticsearch/data
     environment:
+      - xpack.license.self_generated.type=trial # basic
       - node.name=nodo1
       - cluster.name=MiCluster
       - discovery.seed_hosts=nodo2,nodo3
@@ -22,6 +23,7 @@ services:
     volumes:
       - /home/ubuntu/environment/datos/nodo2:/usr/share/elasticsearch/data
     environment:
+      - xpack.license.self_generated.type=trial # basic
       - node.name=nodo2
       - cluster.name=MiCluster
       - discovery.seed_hosts=nodo1,nodo3
@@ -34,6 +36,7 @@ services:
     volumes:
       - /home/ubuntu/environment/datos/nodo3:/usr/share/elasticsearch/data
     environment:
+      - xpack.license.self_generated.type=trial # basic
       - node.name=nodo3
       - cluster.name=MiCluster
       - discovery.seed_hosts=nodo1,nodo2
@@ -50,6 +53,9 @@ services:
       ELASTICSEARCH_HOSTS: "http://nodo1:9200"
       SERVER_NAME: "kibana"
       SERVER_HOST: "kibana"
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: a9b162e524541f2981ad64f7f55e9983
+      XPACK_REPORTING_ENCRYPTIONKEY: 3f6f8a1f464c00a32d3311ed81f594b5
+      XPACK_SECURITY_ENCRYPTIONKEY: 5b8a32966c72a354b05ee4bca160055d
       
   cerebro:
     image: lmenezes/cerebro:0.8.5

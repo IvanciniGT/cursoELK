@@ -28,4 +28,13 @@ Weblogic
     
 ElasticSearch
     Indices
-        
+
+
+
+
+
+MetricBeat
+Filebeat
+Heartbeat                        Logstash            ES      Kibana
+
+HEARTBEAT para monitorizar un puerto de un host
