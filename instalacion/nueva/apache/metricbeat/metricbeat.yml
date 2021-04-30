@@ -24,10 +24,5 @@ metricbeat.modules:
   period: 10s
   enabled: true
 
-processors:
-  - add_cloud_metadata: ~
-
-output.elasticsearch:
-  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
-  username: '${ELASTICSEARCH_USERNAME:}'
-  password: '${ELASTICSEARCH_PASSWORD:}'
+output.logstash:
+  hosts: ['127.0.0.1:5044']

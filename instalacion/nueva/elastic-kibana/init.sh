@@ -1,5 +1,5 @@
 # Crear volumenes
-rm -rf ~/environment/datos/nodo*/*
+sudo rm -rf ~/environment/datos/nodo*/*
 mkdir -p ~/environment/datos/nodo{1..4}
 chmod 777 -R ~/environment/datos
 
