@@ -2,7 +2,10 @@ export IP="172.31.11.249"
 
 sed -e "s/\${IP}/$IP/g" apache/heartbeat/heartbeat.template.yml > apache/heartbeat/heartbeat.yml
 sed -e "s/\${IP}/$IP/g" apache/filebeat/filebeat.template.yml > apache/filebeat/filebeat.yml
-sed -e "s/\${IP}/$IP/g" apache/metricbeat/metricbeat.template.yml | sudo tee apache/metricbeat/metricbeat.yml
+sudo rm apache/metricbeat/metricbeat.yml 
+sed -e "s/\${IP}/$IP/g" apache/metricbeat/metricbeat.template.yml >  apache/metricbeat/metricbeat.yml
+sudo chmod 644  apache/metricbeat/metricbeat.yml
+sudo chown root:root  apache/metricbeat/metricbeat.yml
 sed -e "s/\${IP}/$IP/g" apache/docker-compose.template.yaml > apache/docker-compose.yml
 sed -e "s/\${IP}/$IP/g" elastic-kibana/instances.template.yml > elastic-kibana/instances.yml
 sed -e "s/\${IP}/$IP/g" logstash/pipelines/pipeline_heartbeat.template.conf > logstash/pipelines/pipeline_heartbeat.conf
